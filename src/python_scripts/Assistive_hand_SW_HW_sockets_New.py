@@ -42,6 +42,10 @@ movel_app_shake = f"movel([-2.268404, -1.482966, -2.153143, -2.647089, -2.268404
 movel_shake = f"movel([-2.268404, -1.663850, -2.294637, -2.324691, -2.268404, 0.000000],{accel_mss},{speed_ms},{timel/2},0.000)"
 movel_app_give5 = f"movel([-2.280779, -1.556743, -2.129529, 5.257071, -1.570796, 2.280779],{accel_mss},{speed_ms},{timel},0.000)"
 movel_give5 = f"movel([-2.195869, -1.642206, -2.040971, 5.253965, -1.570796, 2.195869],{accel_mss},{speed_ms},{timel/2},0.000)"
+#new robor movement commands
+movel_inici = f"movel([    -0.000000,  -500.000000,   300.000000,    90.000000,    -0.000000,    -0.000000 ])"
+movel_ventilar = f"movel([  -380.862000,  -238.620000,   533.816000,     0.000000,    -0.000000,  -160.000000 ])"
+movel_abaix = f"movel([  -380.862000,  -238.620000,   533.816000,   -45.000000,     0.000000,  -160.000000 ])"
 
 # Initialize UR5e socket communication
 def check_robot_port(ROBOT_IP, ROBOT_PORT):
@@ -63,70 +67,49 @@ def receive_response(t):
     except socket.error as e:
         print(f"Error receiving data from the robot: {e}")
         exit(1) #Non-zero exit status code to indicate the error
-def Init():
-    print("Init")
-    robot.MoveL(Init_target, True)
-    print("Init_target REACHED")
+
+def nova_funcio():
+    print("Quina calor!")
+    robot.MoveL(inici_target, True)
+    robot.MoveL(ventilar_target, True)
+    robot.MoveL(abaix_target, True)
+    robot.MoveL(ventilar_target, True)
+    robot.MoveL(abaix_target, True)
+    robot.MoveL(ventilar_target, True)
+    robot.MoveL(abaix_target, True)
+    robot.MoveL(ventilar_target, True)
+    print("nova_funcio FINISHED")
+
     if robot_is_connected:
-        # Set the TCP pose
-        print("Init REAL UR5e")
+        print("Ventilar REAL UR5e")
         send_ur_script(set_tcp)
         receive_response(1)
-        send_ur_script(movej_init)
-        receive_response(timej)
-    else:
-        print("UR5e is not connected. Only simulation will take place")
-def Hand_shake():
-    print("Hand Shake")
-    robot.setSpeed(20)
-    robot.MoveL(App_shake_target, True)
-    robot.setSpeed(100)
-    robot.MoveL(Shake_target, True)
-    robot.MoveL(App_shake_target, True)
-    print("Hand Shake FINISHED")
-    if robot_is_connected:
-        # Set the TCP pose
-        print("App_shake REAL UR5e")
-        send_ur_script(set_tcp)
-        receive_response(1)
-        send_ur_script(movel_app_shake)
+        send_ur_script(movel_inici)
         receive_response(timel)
-        send_ur_script(movel_shake)
+        send_ur_script(movel_ventilar)
         receive_response(timel)
-        send_ur_script(movel_app_shake)
+        send_ur_script(movel_abaix)
         receive_response(timel)
-    else:
-        print("UR5e is not connected. Only simulation will take place")
-def Give_me_5():
-    print("Give me 5!")
-    robot.setSpeed(20)
-    robot.MoveL(App_give5_target, True)
-    robot.setSpeed(100)
-    robot.MoveL(Give5_target, True)
-    robot.MoveL(App_give5_target, True)
-    print("Give me 5! FINISHED")
-    if robot_is_connected:
-        # Set the TCP pose
-        print("App_shake REAL UR5e")
-        send_ur_script(set_tcp)
-        receive_response(1)
-        send_ur_script(movel_app_give5)
+        send_ur_script(movel_ventilar)
         receive_response(timel)
-        send_ur_script(movel_give5)
+        send_ur_script(movel_abaix)
         receive_response(timel)
-        send_ur_script(movel_app_give5)
+        send_ur_script(movel_ventilar)
+        receive_response(timel)
+        send_ur_script(movel_abaix)
+        receive_response(timel)
+        send_ur_script(movel_ventilar)
         receive_response(timel)
     else:
         print("UR5e is not connected. Only simulation will take place")
-# Main function
+
+
+#Main function
 def main():
     global robot_is_connected
     robot_is_connected=check_robot_port(ROBOT_IP, ROBOT_PORT)
-    Init()
-    Hand_shake()
-    Give_me_5()
+    nova_funcio()
     if robot_is_connected:
         robot_socket.close()   
 if __name__ == "__main__":
     main()
-    
