@@ -20,6 +20,8 @@ Give5_target = RDK.Item('Give5')
 inici_target = RDK.Item('inici')
 ventilar_target = RDK.Item('ventilar')
 abaix_target = RDK.Item('abaix')
+ventilar2_target = RDK.Item('ventilar2')
+abaix2_target = RDK.Item('abaix2')
 
 # Set robot parameters
 robot.setPoseFrame(base)
@@ -43,9 +45,12 @@ movel_shake = f"movel([-2.268404, -1.663850, -2.294637, -2.324691, -2.268404, 0.
 movel_app_give5 = f"movel([-2.280779, -1.556743, -2.129529, 5.257071, -1.570796, 2.280779],{accel_mss},{speed_ms},{timel},0.000)"
 movel_give5 = f"movel([-2.195869, -1.642206, -2.040971, 5.253965, -1.570796, 2.195869],{accel_mss},{speed_ms},{timel/2},0.000)"
 #new robor movement commands
-movel_inici = f"movel([    -0.000000,  -500.000000,   300.000000,    90.000000,    -0.000000,    -0.000000 ])"
-movel_ventilar = f"movel([  -380.862000,  -238.620000,   533.816000,     0.000000,    -0.000000,  -160.000000 ])"
-movel_abaix = f"movel([  -380.862000,  -238.620000,   533.816000,   -45.000000,     0.000000,  -160.000000 ])"
+
+movel_inici = f"movel([-0.000000, -500.000000, 300.000000, 90.000000, -0.000000, -0.000000],{accel_mss},{speed_ms},{timel},0.000)"
+movel_ventilar = f"movel([-380.862000, -238.620000, 533.816000, 0.000000, -0.000000, -160.000000],{accel_mss},{speed_ms},{timel},0.000)"
+movel_abaix = f"movel([-380.862000, -238.620000, 533.816000, -45.000000, 0.000000, -160.000000],{accel_mss},{speed_ms},{timel},0.000)"
+movel_ventilar2 = f"([380.862000, -238.620000, 533.816000, -0.000000, 0.000000, -40.000000],{accel_mss},{speed_ms},{timel},0.000)"
+movel_abaix2 = f"([380.862000, -238.620000, 533.816000, -0.000000, -45.000000, -40.000000],{accel_mss},{speed_ms},{timel},0.000)"
 
 # Initialize UR5e socket communication
 def check_robot_port(ROBOT_IP, ROBOT_PORT):
@@ -78,6 +83,13 @@ def nova_funcio():
     robot.MoveL(ventilar_target, True)
     robot.MoveL(abaix_target, True)
     robot.MoveL(ventilar_target, True)
+    robot.MoveL(ventilar2_target, True)
+    robot.MoveL(abaix2_target, True)
+    robot.MoveL(ventilar2_target, True)
+    robot.MoveL(abaix2_target, True)
+    robot.MoveL(ventilar2_target, True)
+    robot.MoveL(abaix2_target, True)
+    robot.MoveL(ventilar2_target, True)
     print("nova_funcio FINISHED")
 
     if robot_is_connected:
@@ -99,6 +111,20 @@ def nova_funcio():
         send_ur_script(movel_abaix)
         receive_response(timel)
         send_ur_script(movel_ventilar)
+        receive_response(timel)   
+        send_ur_script(movel_ventilar2)
+        receive_response(timel)
+        send_ur_script(movel_abaix2)
+        receive_response(timel)
+        send_ur_script(movel_ventilar2)
+        receive_response(timel)
+        send_ur_script(movel_abaix2)
+        receive_response(timel)
+        send_ur_script(movel_ventilar2)
+        receive_response(timel)
+        send_ur_script(movel_abaix2)
+        receive_response(timel)
+        send_ur_script(movel_ventilar2)
         receive_response(timel)
     else:
         print("UR5e is not connected. Only simulation will take place")
@@ -113,3 +139,4 @@ def main():
         robot_socket.close()   
 if __name__ == "__main__":
     main()
+    
